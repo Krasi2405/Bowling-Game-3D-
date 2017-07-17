@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RollingBall : MonoBehaviour {
 
-    public Vector3 startVelocity;
+    public bool hasLaunched { get; private set; }
 
     private AudioSource rollingSound;
     private Rigidbody rigidBody;
@@ -12,17 +12,18 @@ public class RollingBall : MonoBehaviour {
 
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
-        rollingSound = GetComponent<AudioSource>();
-        Launch();
-    }
-	
-	void Update () {
-        
+        rigidBody.useGravity = false;
+        hasLaunched = false;
     }
 
-    void Launch()
+    public void Launch(Vector3 velocity)
     {
-        rigidBody.velocity = startVelocity;
+        rigidBody.velocity = velocity;
+        rigidBody.useGravity = true;
+
+        hasLaunched = true;
+
+        rollingSound = GetComponent<AudioSource>();
         rollingSound.Play();
     }
 }
