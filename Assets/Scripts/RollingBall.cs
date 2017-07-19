@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class RollingBall : MonoBehaviour {
 
+    
+    
     public bool hasLaunched { get; private set; }
 
     private AudioSource rollingSound;
     private Rigidbody rigidBody;
-    
+    private Vector3 startingPosition;
+   
 
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
-        rigidBody.useGravity = false;
-        hasLaunched = false;
+        startingPosition = transform.position;
+        Reset();
     }
 
     public void Launch(Vector3 velocity)
@@ -25,5 +28,14 @@ public class RollingBall : MonoBehaviour {
 
         rollingSound = GetComponent<AudioSource>();
         rollingSound.Play();
+    }
+
+    public void Reset()
+    {
+        rigidBody.useGravity = false;
+        hasLaunched = false;
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.angularVelocity = Vector3.zero;
+        transform.position = startingPosition;
     }
 }

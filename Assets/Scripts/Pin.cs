@@ -6,12 +6,10 @@ public class Pin : MonoBehaviour {
 
     [SerializeField]
     public float standingThreshhold = 10f;
-
-    private Vector3 standingPosition;
+    
     private bool knockedDown;
 
     void Start () {
-        standingPosition = transform.rotation.eulerAngles;
         isStanding();
 	}
 

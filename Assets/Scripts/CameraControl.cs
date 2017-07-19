@@ -13,9 +13,5 @@ public class CameraControl : MonoBehaviour {
         {
             transform.position = offset + toFollow.transform.position;
         }
-        else
-        {
-            this.enabled = false;
-        }
 	}
 }
