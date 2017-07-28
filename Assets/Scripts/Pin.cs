@@ -6,7 +6,8 @@ public class Pin : MonoBehaviour {
 
     [SerializeField]
     public float standingThreshhold = 10f;
-    
+    [SerializeField]
+    public float raiseValue = 5f;
     private bool knockedDown;
 
     void Start () {
@@ -28,6 +29,20 @@ public class Pin : MonoBehaviour {
             
         }
         return true;
+    }
+
+    public void Raise()
+    {
+        Rigidbody pinRB = gameObject.GetComponent<Rigidbody>();
+        transform.Translate(new Vector3(0, raiseValue, 0), Space.World);
+        pinRB.useGravity = false;
+    }
+
+    public void Lower()
+    {
+        Rigidbody pinRB = gameObject.GetComponent<Rigidbody>();
+        pinRB.useGravity = true;
+        transform.Translate(new Vector3(0, -raiseValue, 0), Space.World);
     }
 
     
