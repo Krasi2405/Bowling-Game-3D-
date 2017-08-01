@@ -14,7 +14,7 @@ public class ActionMaster : MonoBehaviour {
     {
         if(pins < 0 || pins > 10)
         {
-            throw new System.NotSupportedException("Pins should be between 0 and 10!");
+            throw new System.NotSupportedException("Pins should be between 0 and 10! You have passed in " + pins + " pins");
         }
 
         bowls[currentTurn] = pins;

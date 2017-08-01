@@ -15,7 +15,7 @@ public class PinSetter : MonoBehaviour {
     [SerializeField]
     public GameObject pinsPrefab;
 
-    private bool ballHasEntered = false;
+    private bool ballHasLeftBox = false;
     private float currentTime = 0;
     private RollingBall ball;
     private Swiper swiper;
@@ -31,33 +31,29 @@ public class PinSetter : MonoBehaviour {
 
 	void Update () {
 
-        if (ballHasEntered)
+        if (ballHasLeftBox)
         {
+            UpdateCountUIDisplay();
             if (CheckPinsHaveSettled())
             {
-                standingPinsText.text = CountStanding().ToString();
+                ballHasLeftBox = false;
                 Invoke("PinsHaveSettled", 1f);
             }
         }
 	}
-
-    
-    void OnTriggerEnter(Collider collider)
-    {
-        if(collider.gameObject.GetComponent<RollingBall>())
-        {
-            ballHasEntered = true;
-            standingPinsText.color = Color.red;
-        }
-    }
 
     void OnTriggerExit(Collider collider)
     {
         if(collider.gameObject.GetComponentInParent<Pin>())
         {
             Destroy(collider.transform.parent.gameObject);
-            print("Pin " + collider.transform.parent.name + " has been destroyed!");
         }
+    }
+
+    public void BallHasLeft()
+    {
+        ballHasLeftBox = true;
+        standingPinsText.color = Color.red;
     }
 
 
@@ -137,16 +133,22 @@ public class PinSetter : MonoBehaviour {
 
     public void RenewPins()
     {
+        Debug.Log("Getting pins called!");
         Instantiate(pinsPrefab, pinsPrefab.transform.position + new Vector3(0, raiseValue, 0), Quaternion.identity);
+        UpdateCountUIDisplay();
     }
 
     // Run when pins have settled
     private void PinsHaveSettled()
     {
         Invoke("ResetBall", 5f);
+        standingPinsText.color = Color.black;
+
         int fallenPins = GetNumberFallenPins();
-        Debug.Log("Number of fallen pins: " + fallenPins);
         ActionMaster.Action action = actionMaster.Bowl(fallenPins);
+        Debug.Log("Number of fallen pins: " + fallenPins);
+        Debug.Log("Action: " + action);
+
         if (action == ActionMaster.Action.Tidy)
         {
             Invoke("Tidy", 2f);
@@ -162,9 +164,9 @@ public class PinSetter : MonoBehaviour {
             // TODO Actually do something when the game ends!
             print("Game has ended!");
         }
-        
-        standingPinsText.color = Color.green;
-        ballHasEntered = false;
+
+        ballHasLeftBox = false;
+        standingPinsText.color = Color.black;
     }
     
 
@@ -183,5 +185,8 @@ public class PinSetter : MonoBehaviour {
         ball.Reset();
     }
 
-    
+    public void UpdateCountUIDisplay()
+    {
+        standingPinsText.text = CountStanding().ToString();
+    }
 }
