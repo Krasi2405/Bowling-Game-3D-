@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GutterBall : MonoBehaviour {
 
-    private PinSetter pinSetter;
+    private GameManager gameManager;
 
     
 	void Start () {
-        pinSetter = GameObject.FindObjectOfType<PinSetter>();
+        gameManager = GameObject.FindObjectOfType<GameManager>();
 	}
 	
 
@@ -17,7 +17,7 @@ public class GutterBall : MonoBehaviour {
         if (collider.gameObject.GetComponent<RollingBall>())
         {
             Debug.Log("Gutterball!");
-            pinSetter.BallHasLeft();
+            gameManager.BallHasLeft();
         }
     }
 }
