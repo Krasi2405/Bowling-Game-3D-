@@ -14,9 +14,9 @@ public class GutterBall : MonoBehaviour {
 
     void OnTriggerExit(Collider collider)
     {
-        if (collider.gameObject.GetComponent<RollingBall>())
+        if (collider.gameObject.GetComponent<BowlingBall>())
         {
-            Debug.Log("Gutterball!");
+            Debug.Log("Ball has left the box!");
             gameManager.BallHasLeft();
         }
     }

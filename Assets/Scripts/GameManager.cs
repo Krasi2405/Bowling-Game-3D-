@@ -10,18 +10,20 @@ public class GameManager : MonoBehaviour {
     
     
     private bool ballHasLeftBox = false;
-    private RollingBall ball;
+    private BowlingBall ball;
     private ActionMaster actionMaster;
     private PinManager pinManager;
     private PinSetter pinSetter;
+    private List<int> pinList;
 
     // Use this for initialization
     void Start()
     {
         pinSetter = GameObject.FindObjectOfType<PinSetter>();
         actionMaster = GameObject.FindObjectOfType<ActionMaster>();
-        ball = GameObject.FindObjectOfType<RollingBall>();
+        ball = GameObject.FindObjectOfType<BowlingBall>();
         pinManager = GameObject.FindObjectOfType<PinManager>();
+        pinList = new List<int>();
     }
 
     // Update is called once per frame
@@ -63,7 +65,9 @@ public class GameManager : MonoBehaviour {
         standingPinsText.color = Color.black;
 
         int fallenPins = pinManager.GetNumberFallenPins();
-        ActionMaster.Action action = actionMaster.Bowl(fallenPins);
+        pinList.Add(fallenPins);
+
+        ActionMaster.Action action = ActionMaster.GetAction(pinList);
         Debug.Log("Number of fallen pins: " + fallenPins);
         Debug.Log("Action: " + action);
         pinSetter.ExecuteAction(action, 3f);

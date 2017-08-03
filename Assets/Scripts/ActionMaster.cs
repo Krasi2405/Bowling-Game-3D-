@@ -10,7 +10,20 @@ public class ActionMaster : MonoBehaviour {
     private int currentTurn = 0;
     private bool thirdBallAwarded = false;
 
-    public Action Bowl(int pins)
+    public static Action GetAction(List<int> pins)
+    {
+        ActionMaster actionMaster = new ActionMaster();
+        Action currentAction = new Action();
+        foreach (int pinCount in pins)
+        {
+            currentAction = actionMaster.Bowl(pinCount);
+        }
+
+        return currentAction;
+    }
+
+
+    private Action Bowl(int pins)
     {
         if(pins < 0 || pins > 10)
         {

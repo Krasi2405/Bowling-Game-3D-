@@ -36,6 +36,8 @@ public class Pin : MonoBehaviour {
         Rigidbody pinRB = gameObject.GetComponent<Rigidbody>();
         transform.Translate(new Vector3(0, raiseValue, 0), Space.World);
         pinRB.useGravity = false;
+        pinRB.velocity = Vector3.zero;
+        transform.rotation = Quaternion.identity;
     }
 
     public void Lower()

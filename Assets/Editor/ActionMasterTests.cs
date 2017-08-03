@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 [TestFixture]
 public class ActionMasterTest
 {
+    private List<int> bowls;
 
-    private ActionMaster actionMaster;
 
     [SetUp]
     public void Setup()
     {
-        actionMaster = new ActionMaster();
+        bowls = new List<int>();
     }
 
     [Test]
@@ -23,20 +24,24 @@ public class ActionMasterTest
     [Test]
     public void T01OneStrikeReturnsEndTurn()
     {
-        Assert.AreEqual(ActionMaster.Action.EndTurn, actionMaster.Bowl(10));
+        bowls.Add(10);
+        Assert.AreEqual(ActionMaster.Action.EndTurn, ActionMaster.GetAction(bowls));
     }
 
     [Test]
     public void T02Bowl8ReturnsTidy()
     {
-        Assert.AreEqual(ActionMaster.Action.Tidy, actionMaster.Bowl(8));
+        bowls.Add(8);
+        Assert.AreEqual(ActionMaster.Action.Tidy, ActionMaster.GetAction(bowls));
     }
 
     [Test]
     public void T03Bowl28ReturnsEndTurn()
     {
-        Assert.AreEqual(ActionMaster.Action.Tidy, actionMaster.Bowl(1));
-        Assert.AreEqual(ActionMaster.Action.EndTurn, actionMaster.Bowl(8));
+        bowls.Add(1);
+        Assert.AreEqual(ActionMaster.Action.Tidy, ActionMaster.GetAction(bowls));
+        bowls.Add(8);
+        Assert.AreEqual(ActionMaster.Action.EndTurn, ActionMaster.GetAction(bowls));
     }
 
     [Test]
@@ -44,9 +49,10 @@ public class ActionMasterTest
     {
         for (int i = 1; i < 20; i++)
         {
-            actionMaster.Bowl(1);
+            bowls.Add(1);
         }
-        Assert.AreEqual(ActionMaster.Action.EndGame, actionMaster.Bowl(2));
+        bowls.Add(2);
+        Assert.AreEqual(ActionMaster.Action.EndGame, ActionMaster.GetAction(bowls));
     }
 
     [Test]
@@ -54,37 +60,46 @@ public class ActionMasterTest
     {
         for (int i = 1; i < 19; i++)
         {
-            actionMaster.Bowl(1);
+            bowls.Add(1);
         }
-        Assert.AreEqual(ActionMaster.Action.Reset, actionMaster.Bowl(10));
-        Assert.AreEqual(ActionMaster.Action.Tidy, actionMaster.Bowl(2));
-        Assert.AreEqual(ActionMaster.Action.EndGame, actionMaster.Bowl(8));
+        bowls.Add(10);
+        Assert.AreEqual(ActionMaster.Action.Reset, ActionMaster.GetAction(bowls));
+        bowls.Add(2);
+        Assert.AreEqual(ActionMaster.Action.Tidy, ActionMaster.GetAction(bowls));
+        bowls.Add(8);
+        Assert.AreEqual(ActionMaster.Action.EndGame, ActionMaster.GetAction(bowls));
     }
 
     [Test]
     public void T06ResetIfStrike()
     {
-        Assert.AreEqual(ActionMaster.Action.EndTurn, actionMaster.Bowl(10));
+        bowls.Add(10);
+        Assert.AreEqual(ActionMaster.Action.EndTurn, ActionMaster.GetAction(bowls));
         // Skips the next turn because of strike so no end turn.
-        Assert.AreEqual(ActionMaster.Action.Tidy, actionMaster.Bowl(2));
+        bowls.Add(2);
+        Assert.AreEqual(ActionMaster.Action.Tidy, ActionMaster.GetAction(bowls));
     }
 
     [Test]
     public void T07EndTurnIfSecondStrike()
     {
-        Assert.AreEqual(ActionMaster.Action.Tidy, actionMaster.Bowl(1));
+        bowls.Add(1);
+        Assert.AreEqual(ActionMaster.Action.Tidy, ActionMaster.GetAction(bowls));
         // Skips the next turn because of strike so no end turn.
-        Assert.AreEqual(ActionMaster.Action.EndTurn, actionMaster.Bowl(9));
+        bowls.Add(9);
+        Assert.AreEqual(ActionMaster.Action.EndTurn, ActionMaster.GetAction(bowls));
     }
 
     [Test]
     public void T08NathanBowlIndexTest()
     {
-        Assert.AreEqual(ActionMaster.Action.Tidy, actionMaster.Bowl(0));
-        Assert.AreEqual(ActionMaster.Action.EndTurn, actionMaster.Bowl(10));
-
-        Assert.AreEqual(ActionMaster.Action.Tidy, actionMaster.Bowl(3));
-
-        Assert.AreEqual(ActionMaster.Action.EndTurn, actionMaster.Bowl(7));
+        bowls.Add(0);
+        Assert.AreEqual(ActionMaster.Action.Tidy, ActionMaster.GetAction(bowls));
+        bowls.Add(10);
+        Assert.AreEqual(ActionMaster.Action.EndTurn, ActionMaster.GetAction(bowls));
+        bowls.Add(3);
+        Assert.AreEqual(ActionMaster.Action.Tidy, ActionMaster.GetAction(bowls));
+        bowls.Add(7);
+        Assert.AreEqual(ActionMaster.Action.EndTurn, ActionMaster.GetAction(bowls));
     }
 }

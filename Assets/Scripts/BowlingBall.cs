@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RollingBall : MonoBehaviour {
-
-    
+public class BowlingBall : MonoBehaviour {
     
     public bool hasLaunched { get; private set; }
 
@@ -36,6 +34,7 @@ public class RollingBall : MonoBehaviour {
         hasLaunched = false;
         rigidBody.velocity = Vector3.zero;
         rigidBody.angularVelocity = Vector3.zero;
+        transform.rotation = Quaternion.identity;
         transform.position = startingPosition;
     }
 }

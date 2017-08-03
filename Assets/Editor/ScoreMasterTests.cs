@@ -12,4 +12,16 @@ public class ScoreMasterTests : MonoBehaviour {
     {
 
     }
+
+    [Test]
+    public void T01HandleStrike()
+    {
+
+    }
+
+    [Test]
+    public void T02HandleSpare()
+    {
+
+    }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof(RollingBall))]
+[RequireComponent (typeof(BowlingBall))]
 public class DragLaunch : MonoBehaviour {
 
     [SerializeField]
@@ -10,13 +10,13 @@ public class DragLaunch : MonoBehaviour {
     [SerializeField]
     public float nudgeLimit = 30f;
 
-    private RollingBall ball;
+    private BowlingBall ball;
     private Vector3 start;
     private Vector3 end;
     private float time;
 
 	void Start () {
-        ball = GetComponent<RollingBall>();
+        ball = GetComponent<BowlingBall>();
 	}
 	
 
