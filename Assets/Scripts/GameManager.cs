@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     public Text standingPinsText;
+    [SerializeField]
+    public Text pointsText;
     
     
     private bool ballHasLeftBox = false;
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour {
     {
         if (ballHasLeftBox)
         {
-            UpdateCountUIDisplay();
+            UpdatePinCountUIDisplay();
             if (pinManager.CheckPinsHaveSettled())
             {
                 ballHasLeftBox = false;
@@ -45,7 +47,7 @@ public class GameManager : MonoBehaviour {
         ball.Reset();
     }
 
-    private void UpdateCountUIDisplay()
+    private void UpdatePinCountUIDisplay()
     {
         standingPinsText.text = pinManager.CountStanding().ToString();
     }
@@ -60,8 +62,8 @@ public class GameManager : MonoBehaviour {
     // Run when pins have settled
     private void PinsHaveSettled()
     {
-        Invoke("ResetBall", 5f);
-        Invoke("UpdateCountUIDisplay", 5f);
+        Invoke("ResetBall", 4f);
+        Invoke("UpdatePinCountUIDisplay", 4f);
         standingPinsText.color = Color.black;
 
         int fallenPins = pinManager.GetNumberFallenPins();
@@ -70,8 +72,9 @@ public class GameManager : MonoBehaviour {
         ActionMaster.Action action = ActionMaster.GetAction(pinList);
         Debug.Log("Number of fallen pins: " + fallenPins);
         Debug.Log("Action: " + action);
-        pinSetter.ExecuteAction(action, 3f);
-        
+        pinSetter.ExecuteAction(action, 1f);
+
+        pointsText.text = ScoreMaster.GetTotalScore(pinList).ToString();
 
         ballHasLeftBox = false;
         standingPinsText.color = Color.black;

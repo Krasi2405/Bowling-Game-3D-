@@ -43,7 +43,13 @@ public class PinManager : MonoBehaviour {
 
     public int GetNumberFallenPins()
     {
-        return pinsAtStart - CountStanding();
+        int fallenCount = pinsAtStart - CountStanding();
+        pinsAtStart = CountStanding();
+        if(pinsAtStart == 0)
+        {
+            pinsAtStart = 10;
+        }
+        return fallenCount;
     }
     
 
