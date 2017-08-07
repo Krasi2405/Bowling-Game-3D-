@@ -15,16 +15,7 @@ public class PinManager : MonoBehaviour {
 
     public int CountStanding()
     {
-        int standingCount = 0;
-        Pin[] pins = Pin.FindObjectsOfType<Pin>();
-        foreach (Pin pin in pins)
-        {
-            if (pin.isStanding())
-            {
-                standingCount++;
-            }
-        }
-        return standingCount;
+        return GetStandingPins().Count;
     }
 
 
@@ -44,14 +35,19 @@ public class PinManager : MonoBehaviour {
     public int GetNumberFallenPins()
     {
         int fallenCount = pinsAtStart - CountStanding();
-        pinsAtStart = CountStanding();
-        if(pinsAtStart == 0)
-        {
-            pinsAtStart = 10;
-        }
+        SetStandingPinsCount();
         return fallenCount;
     }
     
+
+    public void SetStandingPinsCount()
+    {
+        pinsAtStart = CountStanding();
+        if (pinsAtStart == 0)
+        {
+            pinsAtStart = 10;
+        }
+    }
 
     // Check if pins have settled
     public bool CheckPinsHaveSettled()

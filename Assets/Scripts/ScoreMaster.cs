@@ -5,40 +5,60 @@ using UnityEngine.UI;
 
 public class ScoreMaster {
 
-    private static List<int> ScoreFrames(List<int> rollsList)
+    public static List<int> ScoreFrames(List<int> rollsList)
     {
 
         List<int> frameList = new List<int>();
-        int[] rollsArray = rollsList.ToArray();
-        int currentFrame = 0;
-        for(int i = 0; i < rollsArray.Length; i++)
+
+        // Frame index points to the first bowl from the turn.
+        for(int i = 0; i < rollsList.Count; i += 2)
         {
-            int score = 0;
-            if (currentFrame <= 17)
+            // Handle strike
+            if (rollsList[i] == 10)
             {
-                // Handle strike
-                if (currentFrame % 2 == 0 && rollsArray[i] == 10)
+                if (i + 2 < rollsList.Count)
                 {
-                    if (i + 2 < rollsArray.Length)
-                    {
-                        score += rollsArray[i + 1] + rollsArray[i + 2];
-                    }
-                    currentFrame++;
-                }
-                // Handle spare
-                else if (currentFrame % 2 == 1 && rollsArray[i - 1] + rollsArray[i] == 10)
-                {
-                    if (i + 1 < rollsArray.Length)
-                    {
-                        score += rollsArray[i + 1];
-                    }
+                    frameList.Add(10 + rollsList[i + 1] + rollsList[i + 2]);
+                    i -= 1;
                 }
             }
-            score += rollsArray[i];
-            currentFrame++;
-            frameList.Add(score);
+            // Handle spare
+            else if (i + 1 < rollsList.Count && rollsList[i] + rollsList[i + 1] == 10)
+            {
+                if (i + 2 < rollsList.Count)
+                {
+                    frameList.Add(10 + rollsList[i + 2]);
+                }
+            }
+            // Normal frame handling
+            else
+            {
+                if (i + 1 < rollsList.Count)
+                {
+                    frameList.Add(rollsList[i] + rollsList[i + 1]);
+                }
+            }
         }
+
+        // Destroy the last 11th frame if it got in the frame list.
+        if (frameList.Count == 11)
+        {
+            frameList.RemoveAt(10);
+        }
+
         return frameList;
+    }
+
+    public static List<int> ScoreCumulative(List<int> rollsList)
+    {
+        List<int> scoreList = new List<int>();
+        int total = 0;
+        foreach(int roll in ScoreFrames(rollsList))
+        {
+            total += roll;
+            scoreList.Add(total);
+        }
+        return scoreList;
     }
 
     public static int GetTotalScore(List<int> rolls)

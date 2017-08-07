@@ -80,10 +80,4 @@ public class GameManager : MonoBehaviour {
         standingPinsText.color = Color.black;
     }
 
-
-    public List<Pin> GetStandingPins()
-    {
-        return pinManager.GetStandingPins();
-    }
-
 }

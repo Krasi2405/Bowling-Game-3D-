@@ -5,25 +5,28 @@ using UnityEngine.UI;
 
 public class PinSetter : MonoBehaviour {
 
+    // Value by which to raise the pins in the y axis.
     [SerializeField]
-    // TODO Make it get the raise value from a pin
     public float raiseValue = 5f;
 
+    // Pins prefab to spawn when resetting
     [SerializeField]
     public GameObject pinsPrefab;
 
 
     private GameManager gameManager;
+    private PinManager pinManager;
 
     void Start()
     {
         gameManager = GameObject.FindObjectOfType<GameManager>();
+        pinManager = GameObject.FindObjectOfType<PinManager>();
     }
 
 
     public void RaisePins()
     {
-        List<Pin> pins = gameManager.GetStandingPins();
+        List<Pin> pins = pinManager.GetStandingPins();
         foreach (Pin pin in pins)
         {
             pin.Raise();
@@ -32,7 +35,7 @@ public class PinSetter : MonoBehaviour {
 
     public void LowerPins()
     {
-        List<Pin> pins = gameManager.GetStandingPins();
+        List<Pin> pins = pinManager.GetStandingPins();
         foreach (Pin pin in pins)
         {
             pin.Lower();
