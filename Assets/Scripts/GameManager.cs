@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     public Text standingPinsText;
-    [SerializeField]
-    public Text pointsText;
     
     
     private bool ballHasLeftBox = false;
@@ -17,6 +15,7 @@ public class GameManager : MonoBehaviour {
     private PinManager pinManager;
     private PinSetter pinSetter;
     private List<int> pinList;
+    private ScoreDisplay scoreDisplay;
 
     // Use this for initialization
     void Start()
@@ -25,7 +24,11 @@ public class GameManager : MonoBehaviour {
         actionMaster = GameObject.FindObjectOfType<ActionMaster>();
         ball = GameObject.FindObjectOfType<BowlingBall>();
         pinManager = GameObject.FindObjectOfType<PinManager>();
+        scoreDisplay = GameObject.FindObjectOfType<ScoreDisplay>();
         pinList = new List<int>();
+
+        scoreDisplay.UpdateCumulativeScoreTexts(pinList);
+        scoreDisplay.UpdateRollsTexts(pinList);
     }
 
     // Update is called once per frame
@@ -37,20 +40,23 @@ public class GameManager : MonoBehaviour {
             if (pinManager.CheckPinsHaveSettled())
             {
                 ballHasLeftBox = false;
-                Invoke("PinsHaveSettled", 1f);
+                PinsHaveSettled();
             }
         }
     }
+
 
     private void ResetBall()
     {
         ball.Reset();
     }
 
+
     private void UpdatePinCountUIDisplay()
     {
-        standingPinsText.text = pinManager.CountStanding().ToString();
+        standingPinsText.text = pinManager.GetStandingCount().ToString();
     }
+
 
     public void BallHasLeft()
     {
@@ -67,6 +73,7 @@ public class GameManager : MonoBehaviour {
         standingPinsText.color = Color.black;
 
         int fallenPins = pinManager.GetNumberFallenPins();
+
         pinList.Add(fallenPins);
 
         ActionMaster.Action action = ActionMaster.GetAction(pinList);
@@ -74,7 +81,8 @@ public class GameManager : MonoBehaviour {
         Debug.Log("Action: " + action);
         pinSetter.ExecuteAction(action, 1f);
 
-        pointsText.text = ScoreMaster.GetTotalScore(pinList).ToString();
+        scoreDisplay.UpdateCumulativeScoreTexts(ScoreMaster.ScoreCumulative(pinList));
+        scoreDisplay.UpdateRollsTexts(pinList);
 
         ballHasLeftBox = false;
         standingPinsText.color = Color.black;

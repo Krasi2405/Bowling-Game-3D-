@@ -14,29 +14,17 @@ public class PinSetter : MonoBehaviour {
     public GameObject pinsPrefab;
 
 
-    private GameManager gameManager;
-    private PinManager pinManager;
-
-    void Start()
-    {
-        gameManager = GameObject.FindObjectOfType<GameManager>();
-        pinManager = GameObject.FindObjectOfType<PinManager>();
-    }
-
-
     public void RaisePins()
     {
-        List<Pin> pins = pinManager.GetStandingPins();
-        foreach (Pin pin in pins)
+        foreach (Pin pin in Pin.FindObjectsOfType<Pin>())
         {
-            pin.Raise();
+            pin.RaiseIfStanding();
         }
     }
 
     public void LowerPins()
     {
-        List<Pin> pins = pinManager.GetStandingPins();
-        foreach (Pin pin in pins)
+        foreach (Pin pin in Pin.FindObjectsOfType<Pin>())
         {
             pin.Lower();
         }

@@ -37,7 +37,17 @@ public class Pin : MonoBehaviour {
         transform.Translate(new Vector3(0, raiseValue, 0), Space.World);
         pinRB.useGravity = false;
         pinRB.velocity = Vector3.zero;
+        pinRB.angularVelocity = Vector3.zero;
+        pinRB.Sleep();
         transform.rotation = Quaternion.identity;
+    }
+
+    public void RaiseIfStanding()
+    {
+        if(isStanding())
+        {
+            Raise();
+        }
     }
 
     public void Lower()

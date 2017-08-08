@@ -13,47 +13,36 @@ public class PinManager : MonoBehaviour {
     private float currentTime = 0;
 
 
-    public int CountStanding()
+    public int GetStandingCount()
     {
-        return GetStandingPins().Count;
-    }
-
-
-    public List<Pin> GetStandingPins()
-    {
-        List<Pin> pins = new List<Pin>();
+        int pinCount = 0;
         foreach (Pin pin in Pin.FindObjectsOfType<Pin>())
         {
             if (pin.isStanding())
             {
-                pins.Add(pin);
+                pinCount++;
             }
         }
-        return pins;
+        return pinCount;
     }
 
     public int GetNumberFallenPins()
     {
-        int fallenCount = pinsAtStart - CountStanding();
-        SetStandingPinsCount();
+        int fallenCount = pinsAtStart - GetStandingCount();
         return fallenCount;
     }
     
-
-    public void SetStandingPinsCount()
+    // Call in the end of lowering the pins since lowering exists in both tidy and swipe.
+    public void SetPinsAtStartCount()
     {
-        pinsAtStart = CountStanding();
-        if (pinsAtStart == 0)
-        {
-            pinsAtStart = 10;
-        }
+        pinsAtStart = GetStandingCount();
     }
 
     // Check if pins have settled
     public bool CheckPinsHaveSettled()
     {
 
-        int standingPinsCount = CountStanding();
+        int standingPinsCount = GetStandingCount();
         if (standingPinsCount == lastFrameStandingPinsCount)
         {
             currentTime += Time.deltaTime;
