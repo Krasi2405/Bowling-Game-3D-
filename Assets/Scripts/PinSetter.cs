@@ -37,17 +37,17 @@ public class PinSetter : MonoBehaviour {
     }
     
 
-    public void ExecuteAction(ActionMaster.Action action, float waitTime)
+    public void ExecuteAction(ActionMasterOld.Action action, float waitTime)
     {
-        if (action == ActionMaster.Action.Tidy)
+        if (action == ActionMasterOld.Action.Tidy)
         {
             Invoke("Tidy", waitTime);
         }
-        else if (action == ActionMaster.Action.EndTurn || action == ActionMaster.Action.Reset)
+        else if (action == ActionMasterOld.Action.EndTurn || action == ActionMasterOld.Action.Reset)
         {
             Invoke("Swipe", waitTime);
         }
-        else if (action == ActionMaster.Action.EndGame)
+        else if (action == ActionMasterOld.Action.EndGame)
         {
             // TODO Actually do something when the game ends!
             print("Game has ended!");

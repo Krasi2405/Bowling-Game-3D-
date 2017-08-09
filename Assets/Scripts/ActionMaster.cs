@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionMaster : MonoBehaviour {
+public class ActionMasterOld : MonoBehaviour {
     
     public enum Action { Tidy, Reset, EndTurn, EndGame};
 
@@ -12,7 +12,7 @@ public class ActionMaster : MonoBehaviour {
 
     public static Action GetAction(List<int> pins)
     {
-        ActionMaster actionMaster = new ActionMaster();
+        ActionMasterOld actionMaster = new ActionMasterOld();
         Action currentAction = new Action();
         foreach (int pinCount in pins)
         {

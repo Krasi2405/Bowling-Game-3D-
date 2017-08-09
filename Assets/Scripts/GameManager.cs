@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     
     private bool ballHasLeftBox = false;
     private BowlingBall ball;
-    private ActionMaster actionMaster;
+    private ActionMasterOld actionMaster;
     private PinManager pinManager;
     private PinSetter pinSetter;
     private List<int> pinList;
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         pinSetter = GameObject.FindObjectOfType<PinSetter>();
-        actionMaster = GameObject.FindObjectOfType<ActionMaster>();
+        actionMaster = GameObject.FindObjectOfType<ActionMasterOld>();
         ball = GameObject.FindObjectOfType<BowlingBall>();
         pinManager = GameObject.FindObjectOfType<PinManager>();
         scoreDisplay = GameObject.FindObjectOfType<ScoreDisplay>();
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour {
 
         pinList.Add(fallenPins);
 
-        ActionMaster.Action action = ActionMaster.GetAction(pinList);
+        ActionMasterOld.Action action = ActionMasterOld.GetAction(pinList);
         Debug.Log("Number of fallen pins: " + fallenPins);
         Debug.Log("Action: " + action);
         pinSetter.ExecuteAction(action, 1f);
